@@ -6,12 +6,12 @@ import ChatWindow from "../containers/ChatWindow";
 
 export default class Main extends Component{
     renderMainComponent(){
-       const {user, activeUserId} = this.props;
+       const {contacts, user, messages,typing, activeUserId} = this.props;
        if(!activeUserId){
            return <Empty user={user} activeUserid={activeUserId}/>
        }
         else{
-            return <ChatWindow activeUserId={activeUserId}/>
+            return <ChatWindow contacts={contacts} messages={messages} typing={typing} activeUserId={activeUserId}/>
         }
     }
 

@@ -1,16 +1,20 @@
 import React, {Component} from "react";
 import {setActiveUserId} from "../action"
+import {connect} from "react-redux";
 import "./User.css";
-import store from "../store";
 
-export default class User extends Component{
+ class User extends Component{
+     constructor(props){
+         super(props);
+         this.handleUserClick = this.handleUserClick.bind(this);
+     }
     handleUserClick(){
-        store.dispatch(setActiveUserId(this.user_id))
+        this.props.setActiveUserId(this.props.user.user_id);
     }
     render(){
         const {name, profile_pic, status} = this.props.user
         return(
-            <div className="user" onClick={this.handleUserClick.bind(this.props.user)}>
+            <div className="user" onClick={this.handleUserClick}>
                 <img src={profile_pic} alt={name} className="user_img"/>
                 <div className="user_details">
                     <p className="user_name">{name}</p>
@@ -20,3 +24,11 @@ export default class User extends Component{
         )
     }
 }
+
+const mapDispatchToProps = (dispatch)=>{
+    return{
+        setActiveUserId : (value) => dispatch(setActiveUserId(value))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(User);

@@ -1,17 +1,15 @@
 import React from "react";
-import store from "../store";
+import { connect } from "react-redux";
 import {setTypingValue, sendMessage}  from "../action"
 import "./InputMessage.css"
 
-export default function InputMessage({value}){
-    const state = store.getState();
-    const {typing, activeUserId} = state;
+function InputMessage({typing, activeUserId, value,sendMessage,setTypingValue}){
     const handleSubmit = (e) =>{
         e.preventDefault();
-        store.dispatch(sendMessage(typing, activeUserId));
+        sendMessage(typing, activeUserId);
     }
     const handleInput = e => {
-        store.dispatch(setTypingValue(e.target.value));
+       setTypingValue(e.target.value);
     }
     return(
         <form className="message" onSubmit={handleSubmit}>
@@ -19,3 +17,12 @@ export default function InputMessage({value}){
         </form>
     )
 }
+
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        sendMessage: (typing, activeUserId) =>dispatch(sendMessage(typing, activeUserId)),
+        setTypingValue : (eventTarget) => dispatch(setTypingValue(eventTarget)) 
+    }
+}
+
+export default connect(null, mapDispatchToProps)(InputMessage);
